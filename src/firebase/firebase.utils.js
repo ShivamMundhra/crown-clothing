@@ -1,17 +1,34 @@
 import firebase from "firebase/app";
+import { firebaseConfig } from "../firebase.config";
 
 import "firebase/auth";
 import "firebase/firestore";
 
-const config = {
-  apiKey: "AIzaSyBxR9ox1-TYRvlSaSDgTBRQAuOPhVvzeT0",
-  authDomain: "crown-clothing-5f5a6.firebaseapp.com",
-  databaseURL: "https://crown-clothing-5f5a6.firebaseio.com",
-  projectId: "crown-clothing-5f5a6",
-  storageBucket: "crown-clothing-5f5a6.appspot.com",
-  messagingSenderId: "358317209213",
-  appId: "1:358317209213:web:7e4b8ede04474b18982314",
-  measurementId: "G-5HBQQPYE25",
+const config = firebaseConfig;
+
+export const createUserProfile = async (userAuth, additionalData) => {
+  if (userAuth) {
+    const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+    const snapshot = await userRef.get();
+
+    if (!snapshot.exists) {
+      const { displayName, email } = userAuth;
+      const createdAt = new Date();
+
+      try {
+        userRef.set({
+          displayName,
+          email,
+          createdAt,
+          ...additionalData,
+        });
+      } catch (error) {
+        console.log("Error Creating user" + error.message);
+      }
+    }
+    return userRef;
+  } else return;
 };
 
 firebase.initializeApp(config);
