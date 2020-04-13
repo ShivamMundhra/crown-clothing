@@ -15,7 +15,9 @@
     height: 240px;
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow-y: scroll;
+    scrollbar-color: rgb(63, 63, 63) white;
+    scrollbar-width: thin;
   }
 
   button {
