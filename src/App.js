@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -17,53 +17,33 @@ import { checkUserSession } from "./redux/user/user.actions";
 
 import "./App.css";
 
-class App extends Component {
-  unSubscribeFromAuth = null;
+const App = ({ checkUserSession, currentUser }) => {
+  // componentDidMount() {
+  //   const { checkUserSession } = this.props;
+  //   checkUserSession();
+  // }
 
-  componentDidMount() {
-    // const { setCurrentUser } = this.props;
-    //   this.unSubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-    //     if (userAuth) {
-    //       const userRef = await createUserProfile(userAuth);
-    //       userRef.onSnapshot((snapshot) => {
-    //         setCurrentUser({
-    //           id: snapshot.id,
-    //           ...snapshot.data(),
-    //         });
-    //       });
-    //     } else setCurrentUser(userAuth);
-    //   });
-
-    const { checkUserSession } = this.props;
-
+  useEffect(() => {
     checkUserSession();
-  }
+  }, [checkUserSession]);
 
-  componentWillUnmount() {
-    this.unSubscribeFromAuth();
-  }
-
-  render() {
-    return (
-      <div>
-        <Header />
-        <Switch>
-          {/* <Route path="/" component={Header} /> */}
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              this.props.currentUser ? <Redirect to="/shop" /> : <AuthPage />
-            }
-          />
-        </Switch>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Header />
+      <Switch>
+        {/* <Route path="/" component={Header} /> */}
+        <Route exact path="/" component={HomePage} />
+        <Route path="/shop" component={ShopPage} />
+        <Route exact path="/checkout" component={CheckoutPage} />
+        <Route
+          exact
+          path="/signin"
+          render={() => (currentUser ? <Redirect to="/shop" /> : <AuthPage />)}
+        />
+      </Switch>
+    </div>
+  );
+};
 
 const mapDispatchToProps = (dispatch) => ({
   checkUserSession: () => dispatch(checkUserSession()),
