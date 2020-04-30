@@ -9,9 +9,9 @@ import "./Directory.styles.scss";
 
 // We Should Use functional Component Here because there is no local state requirement
 class Directory extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
   render() {
     return (
       <div className="directory-menu">
