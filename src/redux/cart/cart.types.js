@@ -3,4 +3,5 @@ export const cartActionTypes = {
   ADD_ITEMS: "ADD_ITEMS",
   CLEAR_ITEM: "CLEAR_ITEM",
   REMOVE_ITEM: "REMOVE_ITEM",
+  CLEAR_CART: "CLEAR_CART",
 };
